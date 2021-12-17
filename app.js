@@ -50,7 +50,11 @@ function newNumber() {
 }
 
 let b = 0
-function moveRightOrUp(array) {
+/**
+ * move right/down for each line/column
+ * @param array
+ */
+function moveRightOrDown(array) {
     b = 0;
     for (let i = 0; i < 4; i++) {
         if (array[i].innerText !== '' && array[i + 1] !== undefined) {
@@ -60,7 +64,8 @@ function moveRightOrUp(array) {
                 array[i + 1].innerText = (parseInt(array[i].innerText) * 2).toString();
                 array[i].innerText = '';
                 array[i].style.backgroundColor = "#fbfafa";
-            } else if (array[i + 1].innerText === '') {
+            }
+            if (array[i + 1].innerText === '') {
                 array[i + 1].innerText = array[i].innerText;
                 array[i + 1].style.backgroundColor = array[i].style.backgroundColor;
                 array[i].innerText = '';
@@ -77,16 +82,59 @@ function moveRightOrUp(array) {
  */
 function runMoveRightOrDown (line, column) {
     if (line) {
-        moveRightOrUp(line1);
-        moveRightOrUp(line2);
-        moveRightOrUp(line3);
-        moveRightOrUp(line4);
+        moveRightOrDown(line1);
+        moveRightOrDown(line2);
+        moveRightOrDown(line3);
+        moveRightOrDown(line4);
     }
     if (column) {
-        moveRightOrUp(column1);
-        moveRightOrUp(column2);
-        moveRightOrUp(column3);
-        moveRightOrUp(column4);
+        moveRightOrDown(column1);
+        moveRightOrDown(column2);
+        moveRightOrDown(column3);
+        moveRightOrDown(column4);
+    }
+
+    newNumber();
+}
+
+let c = 0;
+/**
+ * move left/up for each line/column
+ * @param array
+ */
+function moveLeftOrUp(array) {
+    c = 0;
+    for (let i = 3; i >= 0; i--) {
+        if (array[i].innerText !== '' && array[i - 1] !== undefined) {
+
+            if (array[i - 1].innerText === array[i].innerText && c === 0) {
+                c++;
+                array[i - 1].innerText = (parseInt(array[i].innerText) * 2).toString();
+                array[i].innerText = '';
+                array[i].style.backgroundColor = "#fbfafa";
+            }
+            if (array[i - 1].innerText === '') {
+                array[i - 1].innerText = array[i].innerText;
+                array[i - 1].style.backgroundColor = array[i].style.backgroundColor;
+                array[i].innerText = '';
+                array[i].style.backgroundColor = "#fbfafa";
+            }
+        }
+    }
+}
+
+function runMoveLeftOrUp (line, column) {
+    if (line) {
+        moveLeftOrUp(line1);
+        moveLeftOrUp(line2);
+        moveLeftOrUp(line3);
+        moveLeftOrUp(line4);
+    }
+    if (column) {
+        moveLeftOrUp(column1);
+        moveLeftOrUp(column2);
+        moveLeftOrUp(column3);
+        moveLeftOrUp(column4);
     }
 
     newNumber();
@@ -101,13 +149,13 @@ document.addEventListener("keydown", (e) => {
     switch (e.key) {
         // up
         case 'z':
-            console.log('up');
+            runMoveLeftOrUp(false, true);
             break
         case '8':
-            console.log('up');
+            runMoveLeftOrUp(false, true);
             break
         case 'ArrowUp':
-            console.log('up');
+            runMoveLeftOrUp(false, true);
             break
         // down
         case 's':
@@ -121,13 +169,13 @@ document.addEventListener("keydown", (e) => {
             break
         // left
         case 'q':
-            console.log('left');
+            runMoveLeftOrUp(true, false);
             break
         case '4':
-            console.log('left');
+            runMoveLeftOrUp(true, false);
             break
         case 'ArrowLeft':
-            console.log('left');
+            runMoveLeftOrUp(true, false);
             break
         // right
         case 'd':
