@@ -22,6 +22,15 @@ function gameFull() {
     return a === 16;
 }
 
+/**
+ * change background color following the number
+ * @param div
+ */
+function changeColor(div) {
+    switch (div.innerText) {
+    }
+}
+
 // pick a random case
 function randomCase(g) {
     const randomCaseIndex = Math.floor(Math.random() * g.length);
@@ -55,21 +64,24 @@ let b = 0
  * @param array
  */
 function moveRightOrDown(array) {
-    b = 0;
-    for (let i = 0; i < 4; i++) {
-        if (array[i].innerText !== '' && array[i + 1] !== undefined) {
+    for (let j = 0;  j <= 3; j++) {
+        b = 0;
+        for (let i = 0; i < 4; i++) {
+            if (array[i].innerText !== '' && array[i + 1] !== undefined) {
 
-            if (array[i + 1].innerText === array[i].innerText && b === 0) {
-                b++;
-                array[i + 1].innerText = (parseInt(array[i].innerText) * 2).toString();
-                array[i].innerText = '';
-                array[i].style.backgroundColor = "#fbfafa";
-            }
-            if (array[i + 1].innerText === '') {
-                array[i + 1].innerText = array[i].innerText;
-                array[i + 1].style.backgroundColor = array[i].style.backgroundColor;
-                array[i].innerText = '';
-                array[i].style.backgroundColor = "#fbfafa";
+                if (array[i + 1].innerText === array[i].innerText && b === 0) {
+                    b++;
+                    array[i + 1].innerText = (parseInt(array[i].innerText) * 2).toString();
+                    array[i].innerText = '';
+                    array[i].style.backgroundColor = "#fbfafa";
+                }
+                if (array[i + 1].innerText === '') {
+                    array[i + 1].innerText = array[i].innerText;
+                    array[i + 1].style.backgroundColor = array[i].style.backgroundColor;
+                    array[i].innerText = '';
+                    array[i].style.backgroundColor = "#fbfafa";
+                }
+                changeColor(array[i]);
             }
         }
     }
@@ -103,26 +115,33 @@ let c = 0;
  * @param array
  */
 function moveLeftOrUp(array) {
-    c = 0;
-    for (let i = 3; i >= 0; i--) {
-        if (array[i].innerText !== '' && array[i - 1] !== undefined) {
+    for (let j = 0;  j <= 3; j++) {
+        c = 0;
+        for (let i = 3; i >= 0; i--) {
+            if (array[i].innerText !== '' && array[i - 1] !== undefined) {
 
-            if (array[i - 1].innerText === array[i].innerText && c === 0) {
-                c++;
-                array[i - 1].innerText = (parseInt(array[i].innerText) * 2).toString();
-                array[i].innerText = '';
-                array[i].style.backgroundColor = "#fbfafa";
-            }
-            if (array[i - 1].innerText === '') {
-                array[i - 1].innerText = array[i].innerText;
-                array[i - 1].style.backgroundColor = array[i].style.backgroundColor;
-                array[i].innerText = '';
-                array[i].style.backgroundColor = "#fbfafa";
+                if (array[i - 1].innerText === array[i].innerText && c === 0) {
+                    c++;
+                    array[i - 1].innerText = (parseInt(array[i].innerText) * 2).toString();
+                    array[i].innerText = '';
+                    array[i].style.backgroundColor = "#fbfafa";
+                }
+                if (array[i - 1].innerText === '') {
+                    array[i - 1].innerText = array[i].innerText;
+                    array[i - 1].style.backgroundColor = array[i].style.backgroundColor;
+                    array[i].innerText = '';
+                    array[i].style.backgroundColor = "#fbfafa";
+                }
             }
         }
     }
 }
 
+/**
+ * run move left or up for each line or column
+ * @param line
+ * @param column
+ */
 function runMoveLeftOrUp (line, column) {
     if (line) {
         moveLeftOrUp(line1);
