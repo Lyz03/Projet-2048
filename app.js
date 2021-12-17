@@ -3,14 +3,17 @@ const line2 = document.querySelectorAll('#line2 div');
 const line3 = document.querySelectorAll('#line3 div');
 const line4 = document.querySelectorAll('#line4 div');
 
-
+const column1 = document.querySelectorAll(".div0");
+const column2 = document.querySelectorAll(".div1");
+const column3 = document.querySelectorAll(".div2");
+const column4 = document.querySelectorAll(".div3");
 
 const scoreSpan = document.getElementById('score');
 const buttonPlay = document.getElementById('play');
 
 let game = Array.from(line1).concat(Array.from(line2), Array.from(line3), Array.from(line4));
 
-function gameEnd() {
+function gameFull() {
     let a = 0;
     game.forEach(value => {
         if (value.innerText !== '')
@@ -31,7 +34,7 @@ function randomCase(g) {
 
 // add 2 or 4
 function newNumber() {
-    if (!gameEnd()) {
+    if (!gameFull()) {
         let randomNumber = Math.round(Math.random() * 100);
         const randomC = randomCase(game);
         let div = game[randomC];
@@ -46,29 +49,54 @@ function newNumber() {
     }
 }
 
-function moveRight() {
-    console.log('help')
-    for (let i = 0; i > 4; i++) {
-        console.log('test0')
-        if (line1[i].innerText !== '') {
-            console.log('test1')
-            if (line1[i + 1] !== undefined) {
-                console.log('test2')
-                if (line1[i + 1].innerText === '') {
-                    console.log('test3')
-                    line1[i + 1].innerText = line1[i].innerText;
-                    line1[i].innerText = '';
-                    line1[i].style.backgroundColor = "#fbfafa";
-                }
+let b = 0
+function moveRightOrUp(array) {
+    b = 0;
+    for (let i = 0; i < 4; i++) {
+        if (array[i].innerText !== '' && array[i + 1] !== undefined) {
+
+            if (array[i + 1].innerText === array[i].innerText && b === 0) {
+                b++;
+                array[i + 1].innerText = (parseInt(array[i].innerText) * 2).toString();
+                array[i].innerText = '';
+                array[i].style.backgroundColor = "#fbfafa";
+            } else if (array[i + 1].innerText === '') {
+                array[i + 1].innerText = array[i].innerText;
+                array[i + 1].style.backgroundColor = array[i].style.backgroundColor;
+                array[i].innerText = '';
+                array[i].style.backgroundColor = "#fbfafa";
             }
         }
     }
+}
+
+/**
+ * run move right or down for each line or column
+ * @param line
+ * @param column
+ */
+function runMoveRightOrDown (line, column) {
+    if (line) {
+        moveRightOrUp(line1);
+        moveRightOrUp(line2);
+        moveRightOrUp(line3);
+        moveRightOrUp(line4);
+    }
+    if (column) {
+        moveRightOrUp(column1);
+        moveRightOrUp(column2);
+        moveRightOrUp(column3);
+        moveRightOrUp(column4);
+    }
+
+    newNumber();
 }
 
 buttonPlay.addEventListener("click", () => {
     newNumber();
 });
 
+// Keyboard event
 document.addEventListener("keydown", (e) => {
     switch (e.key) {
         // up
@@ -83,13 +111,13 @@ document.addEventListener("keydown", (e) => {
             break
         // down
         case 's':
-            console.log('down');
+            runMoveRightOrDown(false, true);
             break
         case '2':
-            console.log('down');
+            runMoveRightOrDown(false, true);
             break
         case 'ArrowDown':
-            console.log('down');
+            runMoveRightOrDown(false, true);
             break
         // left
         case 'q':
@@ -103,14 +131,13 @@ document.addEventListener("keydown", (e) => {
             break
         // right
         case 'd':
-            moveRight()
-            console.log('right');
+            runMoveRightOrDown(true, false);
             break
         case '6':
-            console.log('right');
+            runMoveRightOrDown(true, false);
             break
         case 'ArrowRight':
-            console.log('right');
+            runMoveRightOrDown(true, false);
             break
     }
 })
